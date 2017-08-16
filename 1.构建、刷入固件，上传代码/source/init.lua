@@ -75,3 +75,22 @@ print("Connecting to WiFi access point...")
 wifi.setmode(wifi.STATIONAP)
 wifi.sta.config({ssid='4900', pwd='362329xiawenqiang'})
 -- wifi.sta.connect() not necessary because config() uses auto-connect=true by default
+
+-- uart section
+-- when 5 chars is received.
+uart.on("data", 255,
+  function(data)
+    print("receive from uart:", data)
+    if data=="quit" then
+      uart.on("data") -- unregister callback function
+    end
+end, 0)
+--[ when '\r' is received.
+--uart.on("data", "\r",
+--  function(data)
+--   print("receive from uart:", data)
+--    if data=="quit\r" then
+--      uart.on("data") -- unregister callback function
+--    end
+--end, 0)
+--]
